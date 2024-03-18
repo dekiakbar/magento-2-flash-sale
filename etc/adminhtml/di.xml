@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ImportExport\Model\Import">
+        <plugin name="reindex_flash_sale_after_import" type="Deki\FlashSale\Plugin\Indexer\ImportExport"/>
+    </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Product">
+        <plugin name="apply_flash_sale_after_product_save" type="Deki\FlashSale\Plugin\Indexer\Product\Save\ApplyFlashSale"/>
+    </type>
+</config>

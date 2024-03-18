@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Deki::top_level" title="Deki" module="Deki_FlashSale" sortOrder="9999" resource="Magento_Backend::content"/>
+		<add id="Deki_FlashSale::deki_flashsale_event" title="Flash Sale Event" module="Deki_FlashSale" sortOrder="9999" resource="Magento_Backend::content" parent="Deki::top_level" action="deki_flashsale/event/index"/>
+	</menu>
+</config>

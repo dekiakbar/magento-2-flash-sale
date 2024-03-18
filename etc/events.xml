@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="catalog_product_get_final_price">
+        <observer name="flash_sale_price" instance="Deki\FlashSale\Observer\ProcessFrontFinalPriceObserver" />
+    </event>
+
+    <!-- copy flash sale attribute to quoteItem -->
+    <event name="sales_quote_item_set_product">
+        <observer name="flash_sale_attribute_to_quote_item" instance="Deki\FlashSale\Observer\CopyAtrributeToQuoteItem" />
+    </event>
+
+    <!-- deduct flash sale product qty when order placed -->
+    <event name="sales_model_service_quote_submit_success">
+		<observer name="flash_sale_deduct_quantity" instance="Deki\FlashSale\Observer\DeductQuantityAfterOrder"/>
+	</event>
+
+    <event name="sales_quote_item_qty_set_after">
+        <observer name="flash_sale_item_qty" instance="Deki\FlashSale\Observer\QuoteValidator"/>
+    </event>
+</config>

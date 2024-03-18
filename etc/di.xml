@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Deki\FlashSale\Api\EventRepositoryInterface" type="Deki\FlashSale\Model\EventRepository"/>
+	<preference for="Deki\FlashSale\Api\Data\EventInterface" type="Deki\FlashSale\Model\Event"/>
+	<preference for="Deki\FlashSale\Api\Data\EventSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Deki\FlashSale\Model\ResourceModel\Event\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">deki_flashsale_event</argument>
+			<argument name="resourceModel" xsi:type="string">Deki\FlashSale\Model\ResourceModel\Event\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="deki_flashsale_event_listing_data_source" xsi:type="string">Deki\FlashSale\Model\ResourceModel\Event\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+
+	<!-- Event Product -->
+	<preference for="Deki\FlashSale\Api\EventProductRepositoryInterface" type="Deki\FlashSale\Model\EventProductRepository"/>
+	<preference for="Deki\FlashSale\Api\Data\EventProductInterface" type="Deki\FlashSale\Model\EventProduct"/>
+	<preference for="Deki\FlashSale\Api\Data\EventProductSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+
+	<!-- PDP - PLP pricing -->
+	<virtualType name="Magento\Catalog\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
+			<arguments>
+					<argument name="prices" xsi:type="array">
+							<item name="flash_sale_price" xsi:type="string">Deki\FlashSale\Pricing\Price\FlashSalePrice</item>
+					</argument>
+			</arguments>
+	</virtualType>
+
+	<!-- Indexer model -->
+	<preference for="Deki\FlashSale\Api\EventProductPriceRepositoryInterface" type="Deki\FlashSale\Model\EventProductPriceRepository"/>
+	<preference for="Deki\FlashSale\Api\Data\EventProductPriceInterface" type="Deki\FlashSale\Model\EventProductPrice"/>
+	<preference for="Deki\FlashSale\Api\Data\EventProductPriceSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+
+	<!-- modify product price index -->
+	<type name="Magento\Catalog\Model\ResourceModel\Product\Indexer\Price\PriceInterface">
+        <arguments>
+            <argument name="priceModifiers" xsi:type="array">
+                <item name="flashSalePriceModifier" xsi:type="object">Deki\FlashSale\Model\Indexer\PriceIndexModifier</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Indexer\Price\BasePriceModifier">
+        <arguments>
+            <argument name="priceModifiers" xsi:type="array">
+                <item name="flashSalePriceModifier" xsi:type="object">Deki\FlashSale\Model\Indexer\PriceIndexModifier</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

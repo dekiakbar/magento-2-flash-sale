@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+	<table name="deki_flashsale_event" resource="default" engine="innodb" comment="deki_flashsale_event Table">
+		<column xsi:type="int" name="event_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+		<column name="is_enabled" nullable="false" xsi:type="boolean" comment="is_enabled" default="1"/>
+		<column name="name" nullable="true" xsi:type="text" comment="name"/>
+		<column name="date_time_from" nullable="true" xsi:type="datetime" comment="date_time_from"/>
+		<column name="date_time_to" nullable="true" xsi:type="datetime" comment="date_time_to"/>
+		<column name="sort_order" nullable="false" xsi:type="int" comment="sort_order" default="0" identity="false"/>
+
+		<constraint xsi:type="primary" referenceId="PRIMARY">
+			<column name="event_id"/>
+		</constraint>
+	</table>
+	<table name="deki_flashsale_event_product" resource="default" engine="innodb" comment="deki_flashsale_event_product Table">
+		<column xsi:type="int" name="event_product_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+		<column xsi:type="int" name="event_id" padding="10" unsigned="true" nullable="false" comment="event_id" identity="false"/>
+		<column name="product_id" nullable="true" xsi:type="int" comment="product_id" identity="false" unsigned="true"/>
+		<column name="price" nullable="true" xsi:type="text" comment="price"/>
+		<column name="qty" nullable="true" xsi:type="text" comment="qty"/>
+
+		<constraint xsi:type="primary" referenceId="PRIMARY">
+			<column name="event_product_id"/>
+		</constraint>
+		<constraint xsi:type="foreign" referenceId="FK_DEKI_FLASHSALE_EVENT_PRODUCT_EVENT_ID_FLASHSALE_EVENT_EVENT_ID" table="deki_flashsale_event_product" column="event_id" referenceTable="deki_flashsale_event" referenceColumn="event_id" onDelete="CASCADE"/>
+		<index referenceId="IDX_DEKI_FLASHSALE_EVENT_PRODUCT_PRODUCT_ID">
+			<column name="product_id"/>
+    </index>
+	</table>
+	<table name="deki_flashsale_event_product_price" resource="default" engine="innodb" comment="deki_flashsale_event_product_price Table">
+		<column xsi:type="int" name="event_product_price_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity Id"/>
+		<column name="event_id" nullable="false" xsi:type="int" comment="event_id" identity="false" unsigned="true"/>
+		<column name="product_id" nullable="true" xsi:type="int" comment="product_id" identity="false" unsigned="true"/>
+		<column name="price" nullable="true" xsi:type="decimal" comment="price" scale="4" precision="12"/>
+		<column name="discount_amount" nullable="true" xsi:type="decimal" comment="discount_amount" scale="4" precision="12"/>
+		<column name="start_date" nullable="true" xsi:type="datetime" comment="start_date"/>
+		<column name="end_date" nullable="true" xsi:type="datetime" comment="end_date"/>
+		<column name="created_at" nullable="false" xsi:type="timestamp" comment="created_at" default="CURRENT_TIMESTAMP"/>
+
+		<constraint xsi:type="primary" referenceId="PRIMARY">
+			<column name="event_product_price_id"/>
+		</constraint>
+		<index referenceId="DEKI_FLASHSALE_EVENT_PRODUCT_PRICE_EVENT_ID" indexType="btree">
+			<column name="event_id"/>
+		</index>
+		<index referenceId="DEKI_FLASHSALE_EVENT_PRODUCT_PRICE_PRODUCT_ID" indexType="btree">
+			<column name="product_id"/>
+		</index>
+	</table>
+	<table name="quote_item">
+		<column name="is_flash_sale" nullable="true" xsi:type="text" comment="Is Flash Sale"/>
+		<column name="flash_sale_event_id" nullable="true" xsi:type="text" comment="Event Id"/>
+		<column name="flash_sale_event_product_id" nullable="true" xsi:type="text" comment="Event Product Id"/>
+	</table>
+</schema>

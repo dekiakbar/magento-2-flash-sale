@@ -1,0 +1,28 @@
+<?php
+/**
+ * Copyright © (Deki) nooby.dev All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Deki\FlashSale\Block\Adminhtml\Event\Product\AssignProducts $block */
+/** @var \Deki\FlashSale\Block\Adminhtml\Event\Product\Tab\Product $blockGrid */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?= $block->getGridHtml() ?>
+<input type="hidden" name="event_products" id="in_event_products" data-form-part="deki_flashsale_event_form" value=""/>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Deki_FlashSale/js/event-product/assign-products": {
+                "selectedProducts": <?= /* @noEscape */ $block->getProductsJson() ?>,
+                "gridJsObjectName": <?= /* @noEscape */ '"' . $gridJsObjectName . '"' ?: '{}' ?>
+            }
+        }
+    }
+</script>
+
+<!-- @todo remove when "UI components" will support such initialization -->
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], "require('mage/apply/main').apply();", false) ?>

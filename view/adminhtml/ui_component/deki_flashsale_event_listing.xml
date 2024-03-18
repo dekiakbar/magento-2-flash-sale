@@ -1,0 +1,139 @@
+<?xml version="1.0" ?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+	<argument name="data" xsi:type="array">
+		<item name="js_config" xsi:type="array">
+			<item name="provider" xsi:type="string">deki_flashsale_event_listing.deki_flashsale_event_listing_data_source</item>
+		</item>
+	</argument>
+	<settings>
+		<spinner>deki_flashsale_event_columns</spinner>
+		<deps>
+			<dep>deki_flashsale_event_listing.deki_flashsale_event_listing_data_source</dep>
+		</deps>
+		<buttons>
+			<button name="add">
+				<url path="*/*/new"/>
+				<class>primary</class>
+				<label translate="true">Add Event</label>
+			</button>
+		</buttons>
+	</settings>
+	<dataSource name="deki_flashsale_event_listing_data_source" component="Magento_Ui/js/grid/provider">
+		<settings>
+			<storageConfig>
+				<param name="indexField" xsi:type="string">event_id</param>
+			</storageConfig>
+			<updateUrl path="mui/index/render"/>
+		</settings>
+		<aclResource>Deki_FlashSale::event</aclResource>
+		<dataProvider name="deki_flashsale_event_listing_data_source" class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+			<settings>
+				<requestFieldName>id</requestFieldName>
+				<primaryFieldName>event_id</primaryFieldName>
+			</settings>
+		</dataProvider>
+	</dataSource>
+	<listingToolbar name="listing_top">
+		<settings>
+			<sticky>true</sticky>
+		</settings>
+		<bookmark name="bookmarks"/>
+		<columnsControls name="columns_controls"/>
+		<filters name="listing_filters"/>
+		<paging name="listing_paging"/>
+	</listingToolbar>
+	<columns name="deki_flashsale_event_columns">
+		<settings>
+			<editorConfig>
+				<param name="selectProvider" xsi:type="string">deki_flashsale_event_listing.deki_flashsale_event_listing.deki_flashsale_event_columns.ids</param>
+				<param name="enabled" xsi:type="boolean">true</param>
+				<param name="indexField" xsi:type="string">event_id</param>
+				<param name="clientConfig" xsi:type="array">
+					<item name="saveUrl" xsi:type="url" path="deki_flashsale/event/inlineEdit"/>
+					<item name="validateBeforeSave" xsi:type="boolean">false</item>
+				</param>
+			</editorConfig>
+			<childDefaults>
+				<param name="fieldAction" xsi:type="array">
+					<item name="provider" xsi:type="string">deki_flashsale_event_listing.deki_flashsale_event_listing.deki_flashsale_event_columns_editor</item>
+					<item name="target" xsi:type="string">startEdit</item>
+					<item name="params" xsi:type="array">
+						<item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+						<item name="1" xsi:type="boolean">true</item>
+					</item>
+				</param>
+			</childDefaults>
+		</settings>
+		<selectionsColumn name="ids">
+			<settings>
+				<indexField>event_id</indexField>
+			</settings>
+		</selectionsColumn>
+		<column name="event_id">
+			<settings>
+				<filter>text</filter>
+				<sorting>asc</sorting>
+				<label translate="true">ID</label>
+			</settings>
+		</column>
+		<column name="name">
+			<settings>
+				<filter>text</filter>
+				<label translate="true">Event Name</label>
+				<editor>
+					<editorType>text</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">true</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<column name="is_enabled" component="Magento_Ui/js/grid/columns/select">
+				<settings>
+						<label translate="true">Is Enabled</label>
+						<options class="Magento\Config\Model\Config\Source\Yesno"/>
+						<filter>select</filter>
+						<dataType>select</dataType>
+				</settings>
+		</column>
+		<column name="date_time_from"
+					class="Magento\Ui\Component\Listing\Columns\Date"
+					component="Magento_Ui/js/grid/columns/date"
+					>
+			<settings>
+					<filter>dateRange</filter>
+					<dataType>date</dataType>
+					<label translate="true">Start Date</label>
+			</settings>
+		</column>
+		<column name="date_time_to"
+					class="Magento\Ui\Component\Listing\Columns\Date"
+					component="Magento_Ui/js/grid/columns/date"
+					>
+			<settings>
+					<filter>dateRange</filter>
+					<dataType>date</dataType>
+					<label translate="true">End Date</label>
+			</settings>
+		</column>
+		<column name="sort_order">
+			<settings>
+				<filter>number</filter>
+				<label translate="true">Sort Order (Priority)</label>
+				<editor>
+					<editorType>number</editorType>
+					<validation>
+						<rule name="required-entry" xsi:type="boolean">false</rule>
+					</validation>
+				</editor>
+			</settings>
+		</column>
+		<actionsColumn name="actions" class="Deki\FlashSale\Ui\Component\Listing\Column\EventActions">
+			<settings>
+				<indexField>event_id</indexField>
+				<resizeEnabled>false</resizeEnabled>
+				<resizeDefaultWidth>107</resizeDefaultWidth>
+			</settings>
+		</actionsColumn>
+	</columns>
+</listing>

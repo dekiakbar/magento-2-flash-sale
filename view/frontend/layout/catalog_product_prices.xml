@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © (Deki) nooby.dev All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <referenceBlock name="render.product.prices">
+        <arguments>
+            <!-- custom simple product price renderer -->
+            <argument name="default" xsi:type="array">
+                <item name="prices" xsi:type="array">
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">Deki\FlashSale\Pricing\Render\Simple\FinalPriceBox</item>
+                        <item name="render_template" xsi:type="string">Deki_FlashSale::catalog/product/simple/price/final_price.phtml</item>
+                    </item>
+                    <item name="wishlist_configured_price" xsi:type="array">
+                        <item name="render_template" xsi:type="string">Deki_FlashSale::wishlist/product/price/configured_price.phtml</item>
+                    </item>
+                </item>
+            </argument>
+
+            <!-- custom configurable product price renderer -->
+            <argument name="configurable" xsi:type="array">
+                <item name="prices" xsi:type="array">
+                    <item name="final_price" xsi:type="array">
+                        <item name="render_class" xsi:type="string">Deki\FlashSale\Pricing\Render\Configurable\FinalPriceBox</item>
+                        <item name="render_template" xsi:type="string">Deki_FlashSale::catalog/product/configurable/price/final_price.phtml</item>
+                    </item>
+                    <item name="wishlist_configured_price" xsi:type="array">
+                        <item name="render_template" xsi:type="string">Deki_FlashSale::wishlist/product/price/configurable/configured_price.phtml</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </referenceBlock>
+</layout>

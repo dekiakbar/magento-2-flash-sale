@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © (Deki) nooby.dev All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Indexer/etc/indexer.xsd">
+    <indexer id="flash_sale_product_price" view_id="flash_sale_product_price" class="Deki\FlashSale\Model\Indexer\Product\PriceIndexer">
+        <title translate="true">Flash Sale Product Price</title>
+        <description translate="true">Indexed flash sale product price association</description>
+    </indexer>
+
+    <!--
+        Make catalog product price indexer depend on flash_sale_product_price
+        and flash sale price will be copy to catalog_product_index_price
+        by app/code/Deki/FlashSale/Model/Indexer/PriceIndexModifier.php
+    -->
+    <indexer id="catalog_product_price">
+        <dependencies>
+            <indexer id="flash_sale_product_price" />
+        </dependencies>
+    </indexer>
+</config>
