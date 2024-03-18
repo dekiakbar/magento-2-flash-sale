@@ -1,7 +1,8 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
 	<menu>
-		<add id="Deki::top_level" title="Deki" module="Deki_FlashSale" sortOrder="9999" resource="Magento_Backend::content"/>
-		<add id="Deki_FlashSale::deki_flashsale_event" title="Flash Sale Event" module="Deki_FlashSale" sortOrder="9999" resource="Magento_Backend::content" parent="Deki::top_level" action="deki_flashsale/event/index"/>
+		<add id="Deki_FlashSale::event" title="Flash Sale" translate="title" module="Deki_Core" sortOrder="10" resource="Deki_FlashSale::event" parent="Deki_Core::deki"/>
+		<add id="Deki_FlashSale::deki_flashsale_event" title="Flash Sale Event" module="Deki_FlashSale" sortOrder="10" resource="Magento_Backend::content" parent="Deki_FlashSale::event" action="deki_flashsale/event/index"/>
+		<add id="Deki_FlashSale::config_deki_flashsale" title="Configuration" translate="title" module="Deki_FlashSale" sortOrder="20" resource="Deki_FlashSale::config_deki_flashsale" parent="Deki_FlashSale::event" action="adminhtml/system_config/edit/section/flash_sale"/>
 	</menu>
 </config>
