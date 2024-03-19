@@ -7,11 +7,28 @@ declare(strict_types=1);
 
 namespace Deki\FlashSale\Model\ResourceModel;
 
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 class EventProductPrice extends AbstractDb
 {
+    /**
+     * @var TimezoneInterface
+     */
+    protected $timeZone;
+
+    /**
+     * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
+     * @param TimezoneInterface $timeZone
+     */
+    public function __construct(
+        \Magento\Framework\Model\ResourceModel\Db\Context $context,
+        TimezoneInterface $timeZone
+    ){
+        $this->timeZone = $timeZone;
+        parent::__construct(
+            $context
+        );
+    }
 
     /**
      * @inheritDoc
@@ -49,10 +66,22 @@ class EventProductPrice extends AbstractDb
     public function getFlashSalePrices(\DateTimeInterface $date, $productIds)
     {
         $connection = $this->getConnection();
+
+        /**
+         * Timezone is converted to UTC, magento save flash sale date
+         * in UTC
+         */
+        if($date->getTimezone() != $this->timeZone->getDefaultTimezone()){
+            $date = $this->timeZone->convertConfigTimeToUtc(
+                $date,
+                "Y-m-d H:i:s"
+            );
+        }
+
         $select = $connection->select()
             ->from($this->getTable($this->getMainTable()), ['product_id', 'price', 'event_id', 'discount_amount'])
-            ->where('`start_date` <= ?', $date->format('Y-m-d H:i:s'))
-            ->where('`end_date` >= ?', $date->format('Y-m-d H:i:s'))
+            ->where('`start_date` <= ?', $date)
+            ->where('`end_date` >= ?', $date)
             ->where('deki_flashsale_event_product_price.product_id IN(?)', $productIds, \Zend_Db::INT_TYPE);
 
         /**

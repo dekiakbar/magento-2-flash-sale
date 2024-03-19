@@ -14,7 +14,6 @@ use Deki\FlashSale\Model\ResourceModel\EventProductPrice\CollectionFactory as Pr
 use Deki\FlashSale\Model\ResourceModel\EventProductPrice\Collection as PriceCollection;
 use Magento\Framework\Indexer\AbstractProcessor;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFActory;
-
 use Deki\FlashSale\Model\Config;
 
 class EventProductPriceProcessor extends AbstractProcessor
@@ -93,13 +92,20 @@ class EventProductPriceProcessor extends AbstractProcessor
             $storeId = $this->storeManager->getStore()->getId();
         }
 
-        $currentDate = $this->timeZone->scopeDate($storeId, null, true);
+        /**
+         * Timezone is converted to UTC, magento save flas sale date
+         * in UTC
+         */
+        $currentDate = $this->timeZone->convertConfigTimeToUtc(
+            $this->timeZone->scopeDate($storeId, null, true),
+            "Y-m-d H:i:s"
+        );
 
         /** @var \Deki\FlashSale\Model\ResourceModel\Event\Collection $events */
         $events = $this->eventFactory->create();
         $events->addFieldToFilter('is_enabled', 1);
-        $events->addFieldToFilter('date_time_from', ['lteq' => $currentDate->format('Y-m-d H:i:s')]);
-        $events->addFieldToFilter('date_time_to', ['gteq' => $currentDate->format('Y-m-d H:i:s')]);
+        $events->addFieldToFilter('date_time_from', ['lteq' => $currentDate]);
+        $events->addFieldToFilter('date_time_to', ['gteq' => $currentDate]);
 
         $uniqueProducts = [];
 
@@ -142,7 +148,7 @@ class EventProductPriceProcessor extends AbstractProcessor
                 }
             }
         }
-    
+        
         return $uniqueProducts;
     }
 
@@ -159,6 +165,8 @@ class EventProductPriceProcessor extends AbstractProcessor
         }
 
         $uniqueProducts = $this->getAvailableSale($storeId);
+
+        $this->deleteIndexedFlashSale();
 
         if (count($uniqueProducts) <= 0) {
             return;
@@ -187,8 +195,7 @@ class EventProductPriceProcessor extends AbstractProcessor
             ];
         }
 
-        $this->deleteIndexedFlashSale();
-      /** @var PriceCollection $priceCollection */
+        /** @var PriceCollection $priceCollection */
         $priceCollection = $this->priceCollectionFactory->create();
         $tableName = $priceCollection->getMainTable();
         $priceCollection->getConnection()->insertMultiple($tableName, $bulkSaleProductPrice);
