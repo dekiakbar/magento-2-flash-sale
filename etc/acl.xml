@@ -3,7 +3,7 @@
 	<acl>
 		<resources>
 			<resource id="Magento_Backend::admin">
-				<resource id="Deki_FlashSale::event" title="event" sortOrder="10">
+				<resource id="Deki_FlashSale::event" title="Flash Sale Event" sortOrder="10">
 					<resource id="Deki_FlashSale::event_save" title="Save event" sortOrder="10"/>
 					<resource id="Deki_FlashSale::event_delete" title="Delete event" sortOrder="20"/>
 					<resource id="Deki_FlashSale::event_update" title="Update event" sortOrder="30"/>
