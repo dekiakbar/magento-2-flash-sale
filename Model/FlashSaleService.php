@@ -22,7 +22,7 @@ class FlashSaleService
     public const EVENT_PRODUCT_ID = 'flash_sale_event_product_id';
     public const FLASH_SALE_DISCOUNT = 'flash_sale_dicount_amount';
     public const ERROR_QUOTE_ORIGIN = 'flash_sale';
-    public const ERROR_QUOTE_MESSAGE = 'You have Invalid product(s).';
+    public const ERROR_QUOTE_MESSAGE = 'You have Invalid product(s). Please remove the product(s)';
     public const ERROR_QUOTE_ITEM_QTY = 'Exceeded maximum allowed flash sale quantity.';
     public const ERROR_QUOTE_ITEM_INVALID = 'Flash sale ended or quantity sold out.';
 
@@ -158,6 +158,21 @@ class FlashSaleService
      */
     private function addErrorInfoToQuote($quoteItem, $itemMessage)
     {
+        /**
+         * Add error message to parent item.
+         * if item is configurable product, need to add error message to parent item
+         * otherwise error message will not showing up.
+         */
+        if ($quoteItem->getParentItemId()) {
+            $parentItem = $quoteItem->getParentItem();
+
+            $parentItem->addErrorInfo(
+                self::ERROR_QUOTE_ORIGIN,
+                Data::ERROR_QTY,
+                __($itemMessage)
+            );
+        }
+
         $quoteItem->addErrorInfo(
             self::ERROR_QUOTE_ORIGIN,
             Data::ERROR_QTY,
