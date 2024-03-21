@@ -53,6 +53,7 @@
 					</validation>
 					<dataType>boolean</dataType>
 					<label translate="true">Enable Event</label>
+					<notice translate="true">Enable or disable the event.</notice>
 			</settings>
 			<formElements>
 					<checkbox>
@@ -97,6 +98,7 @@
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">true</rule>
 				</validation>
+				<notice translate="true">The date time when flash sale is started.</notice>
 			</settings>
 			<formElements>
 				<date>
@@ -124,6 +126,7 @@
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">true</rule>
 				</validation>
+				<notice translate="true">The date time when flash sale is ended.</notice>
 			</settings>
 			<formElements>
 				<date>
@@ -148,6 +151,7 @@
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>
 				</validation>
+				<notice translate="true">Sort order, If flash salse ahs same product, the higher sort order will be applied.</notice>
 			</settings>
 		</field>
 	</fieldset>
