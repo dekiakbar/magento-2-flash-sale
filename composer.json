@@ -1,9 +1,15 @@
 {
     "name": "deki/magento-2-flash-sale",
-    "description": "Showing discount label and percentage",
+    "description": "Magento 2 Flash sale module",
     "type": "magento2-module",
     "license": "GPL-3.0",
     "version": "1.0.0",
+    "keywords": [
+        "Magento",
+        "Magento 2",
+        "Magento 2 module",
+        "Magento 2 extension"
+    ],
     "authors": [
         {
             "name": "Deki",
