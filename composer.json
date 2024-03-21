@@ -3,6 +3,7 @@
     "description": "Showing discount label and percentage",
     "type": "magento2-module",
     "license": "GPL-3.0",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Deki",
