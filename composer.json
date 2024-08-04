@@ -3,7 +3,7 @@
     "description": "Magento 2 Flash sale module",
     "type": "magento2-module",
     "license": "GPL-3.0",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": [
         "Magento",
         "Magento 2",
